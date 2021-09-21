@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
     QtAV:  Multimedia framework based on Qt and FFmpeg
     Copyright (C) 2012-2017 Wang Bin <wbsecg1@gmail.com>
 
@@ -325,6 +325,8 @@ void AVDemuxThread::seekInternal(qint64 pos, SeekType type, qint64 external_pos)
             watch_thread = t;
         }
     }
+
+	watch_thread = !video_thread || (audio_thread && demuxer->hasAttacedPicture()) ? audio_thread : video_thread;
     if (watch_thread) {
         pauseInternal(false);
         Q_EMIT requestClockPause(false); // need direct connection
